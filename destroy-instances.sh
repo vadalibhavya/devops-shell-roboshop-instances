@@ -9,20 +9,21 @@ do
   echo "Processing $instance"
 
   INSTANCE_ID=$(aws ec2 describe-instances \
-    --filters "Name=tag:Name,Values=$instance" "Name=instance-state-name,Values=pending,running,stopping,stopped" \
+    --filters "Name=tag:Name,Values=${instance}-latest" "Name=instance-state-name,Values=pending,running,stopping,stopped" \
     --query "Reservations[0].Instances[0].InstanceId" \
     --output text)
 
   if [[ "$INSTANCE_ID" == "None" || -z "$INSTANCE_ID" ]]; then
-    echo "No running or stopped instance found with tag Name=$instance. Skipping..."
+    echo "No instance found with tag Name=${instance}-latest. Skipping..."
     continue
   fi
 
-  echo "Updating tag Name to 'old' for instance $INSTANCE_ID"
-  aws ec2 create-tags --resources "$INSTANCE_ID" --tags Key=Name,Value=old
+  echo "Updating tag Name to '${instance}-old' for instance $INSTANCE_ID"
+  aws ec2 create-tags --resources "$INSTANCE_ID" --tags "Key=Name,Value=${instance}-old"
 
   echo "Terminating instance $INSTANCE_ID"
   aws ec2 terminate-instances --instance-ids "$INSTANCE_ID"
+
 done
 
-echo "Done destroying instances.."
+echo "Done destroying instances."
