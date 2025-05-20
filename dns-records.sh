@@ -2,9 +2,10 @@
 ZONE_ID="Z05489693LFV4727Y7R4T"
 #fetch all the instances with tag name and ignore the instances with no tag name
 instances=$(aws ec2 describe-instances \
-              --filters "Name=instance-state-name,Values=running" \
-              --query "Reservations[*].Instances[?Tags[?Key=='Name']].{InstanceId:InstanceId,Name:Tags[?Key=='Name']|[0].Value}" \
-              --output text)
+  --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=*latest" \
+  --query "Reservations[*].Instances[*].{InstanceId:InstanceId,Name:Tags[?Key=='Name']|[0].Value}" \
+  --output text)
+
 
 for instance in $instances
 do
@@ -32,7 +33,7 @@ do
       --hosted-zone-id $ZONE_ID \
       --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance-internal'.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PRIVATE_IP'"}]}}]}' \
       --output text
-    echo "Private DNS record created/updated for $instance"
+    echo "Private DNS record ccreated/updated for $instance"
   else
     echo "Skipping private DNS update for $instance: No valid private IP"
   fi

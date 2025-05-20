@@ -1,7 +1,10 @@
 #!/bin/bash
 ZONE_ID="Z05489693LFV4727Y7R4T"
 #delete the dns records that are created
-instances=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=*" --query "Reservations[*].Instances[*].InstanceId" --output text)
+instances=$(aws ec2 describe-instances \
+  --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=*latest" \
+  --query "Reservations[*].Instances[*].{InstanceId:InstanceId,Name:Tags[?Key=='Name']|[0].Value}" \
+  --output text)
 for instance in "${instances[@]}"
 do
   echo "Deleting dns records for $instance"
@@ -14,4 +17,4 @@ do
     --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet":{"Name":"'$instance-internal'.doubtfree.online","Type":"A"}}]}' \
     --output text
 done
-echo "Deleted dns records for all instances"
+echo "Deleted Dns records for all instances"
