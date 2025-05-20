@@ -16,15 +16,24 @@ do
     --filters "Name=tag:Name,Values=$instance" \
     --query "Reservations[0].Instances[0].PrivateIpAddress" \
     --output text)
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \
-    --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance'.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PUBLIC_IP'"}]}}]}' \
-    --output text
-  echo "Public DNS record created/updated for $instance"
-  aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \
-    --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance-internal'.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PRIVATE_IP'"}]}}]}' \
-    --output text
-  echo "Private DNS record created/updated for $instance"
+
+  if [[ -n "$PUBLIC_IP" && "$PUBLIC_IP" != "None" ]]; then
+    aws route53 change-resource-record-sets \
+      --hosted-zone-id $ZONE_ID \
+      --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance'.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PUBLIC_IP'"}]}}]}' \
+      --output text
+    echo "Public DNS record created/updated for $instance"
+  else
+    echo "Skipping public DNS update for $instance: No valid public IP"
+  fi
+
+  if [[ -n "$PRIVATE_IP" && "$PRIVATE_IP" != "None" ]]; then
+    aws route53 change-resource-record-sets \
+      --hosted-zone-id $ZONE_ID \
+      --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance-internal'.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PRIVATE_IP'"}]}}]}' \
+      --output text
+    echo "Private DNS record created/updated for $instance"
+  else
+    echo "Skipping private DNS update for $instance: No valid private IP"
+  fi
 done
-echo "All DNS records created/updated"
