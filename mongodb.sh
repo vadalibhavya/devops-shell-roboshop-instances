@@ -12,15 +12,18 @@ SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 SCRIPT_DIR=$PWD
 
-mkdir -p $LOGS_FOLDER
+
 echo "Script started executing at $(date)" | tee -a $LOG_FILE
 
 if [ $USERID -ne 0 ]; then
-  echo -e "${R}You are not root user${N}"
+    echo -e "${R}You are not root user${N}"
+  #switching to root
+  sudo -i
   exit 1
 else
   echo -e "${G}You are root user${N}"
 fi
+mkdir -p $LOGS_FOLDER
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOG_FILE
 VALIDATE $? "copying mongo.repo"
