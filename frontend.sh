@@ -1,37 +1,39 @@
 #!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
 USERID=$(id -u)
-R="\e[31m"
-G="\e[32m"
-B="\e[34m"
-Y="\e[33m"
-M="\e[35m"
-C="\e[36m"
-N="\e[0m"
+R="\033[31m"
+G="\033[32m"
+B="\033[34m"
+Y="\033[33m"
+M="\033[35m"
+C="\033[36m"
+N="\033[0m"
+
 LOGS_FOLDER="/var/log/roboshop-logs"
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+SCRIPT_NAME=$(basename "$0" | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
-SCRIPT_DIR=$PWD
 
+echo "Script started executing at $(date)" | tee -a "$LOG_FILE"
 
-echo "Script started executing at $(date)" | tee -a $LOG_FILE
-
-if [ $USERID -ne 0 ]; then
-    echo -e "${R}You are not root user${N}"
-  #switching to root
-  sudo -i
-
-else
-  echo -e "${G}You are root user${N}"
-fi
-mkdir -p $LOGS_FOLDER
-
-VALIDATE() {
-  if [ $1 -eq 0 ]; then
-    echo -e " $2 is ... ${G}SUCCESS${N}" | tee -a $LOG_FILE
-  else
-    echo -e " $2 is ... ${R}FAILURE${N}" | tee -a $LOG_FILE
+if [ "$USERID" -ne 0 ]; then
+    echo -e "${R}You are not root user. Please run the script as root.${N}" | tee -a "$LOG_FILE"
     exit 1
-  fi
+else
+    echo -e "${G}You are root user${N}" | tee -a "$LOG_FILE"
+fi
+
+mkdir -p "$LOGS_FOLDER"
+
+function VALIDATE() {
+    if [ $1 -ne 0 ]; then
+        echo -e "${R}$2 - Failure${N}" | tee -a "$LOG_FILE"
+        exit 1
+    else
+        echo -e "${G}$2 - Success${N}" | tee -a "$LOG_FILE"
+    fi
 }
 
 echo "Disabling default nginx"
