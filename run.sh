@@ -17,7 +17,6 @@ fi
 cd devops-shell-roboshop-instances
 git reset --hard HEAD      # Discards local changes
 git pull                   # Pulls latest from remote
-
 chmod +x $service.sh
 sudo bash $service.sh
 EOF
