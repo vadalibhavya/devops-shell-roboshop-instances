@@ -17,18 +17,8 @@ for instance in ${instances[@]}; do
     --query "Instances[0].InstanceId" \
     --output text)
   echo "Created $INSTANCE_ID"
-# get the public ip address and private ip address of the instance
-  PUBLIC_IP=$(aws ec2 describe-instances \
-    --instance-ids "$INSTANCE_ID" \
-    --query "Reservations[0].Instances[0].PublicIpAddress" \
-    --output text)
-  echo "Public IP: $PUBLIC_IP"
-  PRIVATE_IP=$(aws ec2 describe-instances \
-    --instance-ids "$INSTANCE_ID" \
-    --query "Reservations[0].Instances[0].PrivateIpAddress" \
-    --output text)
-  echo "Private IP: $PRIVATE_IP"
 done
+
 # create/update the dns records for the instances with public ip to be instance-internal/instance-public my domain is doubtfree.online
 echo "creating private and public dns records if not available for instances, else updating the dns records"
   aws route53 change-resource-record-sets \
