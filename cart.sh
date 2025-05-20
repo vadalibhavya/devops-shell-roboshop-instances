@@ -40,8 +40,6 @@ VALIDATE $? "disabling default nodejs"
 dnf module enable nodejs:20 -y &>> $LOG_FILE
 VALIDATE $? "enabling nodejs"
 
-cp $SCRIPT_DIR/$SCRIPT_NAME.service /etc/systemd/system/$SCRIPT_NAME.service &>> $LOG_FILE
-VALIDATE $? "copying service file"
 dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "installing nodejs"
 
@@ -62,6 +60,9 @@ VALIDATE $? "unzipping $SCRIPT_NAME artifact"
 
 npm install
 VALIDATE $? "installing dependencies"
+
+cp /$SCRIPT_DIR/$SCRIPT_NAME.service /etc/systemd/system/$SCRIPT_NAME.service
+VALIDATE $? "copying service file"
 
 systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "daemon reload"
