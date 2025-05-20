@@ -15,7 +15,9 @@ if [ ! -d "devops-shell-roboshop-instances" ]; then
   git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
 fi
 cd devops-shell-roboshop-instances
-git pull
+git reset --hard HEAD      # Discards local changes
+git pull                   # Pulls latest from remote
+
 chmod +x $service.sh
 sudo bash $service.sh
 EOF
