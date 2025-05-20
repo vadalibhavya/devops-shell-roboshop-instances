@@ -53,7 +53,7 @@ while read -r INSTANCE_ID SERVICE_TAG; do
         "ResourceRecordSet": {
           "Name": "'$SERVICE_TAG'-internal.doubtfree.online",
           "Type": "A",
-          "TTL": 300,
+          "TTL": 5,
           "ResourceRecords": [{"Value": "'$PRIVATE_IP'"}]
         }
       }]
