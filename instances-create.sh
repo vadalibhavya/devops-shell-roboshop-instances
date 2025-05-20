@@ -6,7 +6,10 @@ SECURITY_GROUP_ID="sg-02e8b8d9dcc4131b2"
 ZONE_ID="Z05489693LFV4727Y7R4T"
 
 instances=("frontend" "mongodb" "catalogue" "redis" "user" "cart" "shipping" "payment" "dispatch" "mysql" "rabbitmq")
-
+#install aws cli
+echo "Installing aws cli"
+dnf install awscli -y
+echo "aws cli installed successfully"
 for instance in "${instances[@]}"; do
   echo "Creating $instance instance"
 
