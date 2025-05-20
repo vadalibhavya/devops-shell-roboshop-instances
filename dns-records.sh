@@ -1,7 +1,11 @@
 #!/bin/bash
 ZONE_ID="Z05489693LFV4727Y7R4T"
 #fetch all the instances with tag name and ignore the instances with no tag name
-instances=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=*" "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
+instances=$(aws ec2 describe-instances \
+  --filters "Name=tag:Name,Values=*" \
+  --query "Reservations[*].Instances[?State.Name=='running'].InstanceId" \
+  --output text)
+
 for instance in $instances
 do
   PUBLIC_IP=$(aws ec2 describe-instances \
