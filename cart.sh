@@ -19,9 +19,7 @@ if [ $USERID -ne 0 ]; then
     echo -e "${R}You are not root user${N}"
   #switching to root
   sudo -i
-  #switching to root
-  sudo -i
-  exit 1
+    exit 1
 else
   echo -e "${G}You are root user${N}"
 fi

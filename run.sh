@@ -16,7 +16,7 @@ if [ ! -d "devops-shell-roboshop-instances" ]; then
 fi
 cd devops-shell-roboshop-instances
 chmod +x $service.sh
-bash $service.sh
+sudo bash $service.sh
 EOF
 
 done
