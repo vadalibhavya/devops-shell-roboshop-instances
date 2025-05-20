@@ -39,7 +39,7 @@ while read -r INSTANCE_ID SERVICE_TAG; do
         "ResourceRecordSet": {
           "Name": "'$SERVICE_TAG'.doubtfree.online",
           "Type": "A",
-          "TTL": 300,
+          "TTL": 5,
           "ResourceRecords": [{"Value": "'$PUBLIC_IP'"}]
         }
       }]
