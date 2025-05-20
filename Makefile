@@ -10,7 +10,7 @@ deploy:
 
 %:
 	@echo "Connecting to $@.$(DOMAIN)"
-	@sshpass -p $(PASSWORD) ssh -o StrictHostKeyChecking=no $(USER)@$@.$(DOMAIN) 'bash -s' <<EOF
+	@sshpass -p $(PASSWORD) ssh -o StrictHostKeyChecking=no $(USER)@$@.$(DOMAIN) 'bash -s' <<'EOF'
 cd /home/ec2-user
 if [ ! -d "devops-shell-roboshop-instances" ]; then
   git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git

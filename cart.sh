@@ -60,7 +60,7 @@ unzip -o /tmp/cart.zip
 VALIDATE $? "unzipping $SCRIPT_NAME artifact"
 
 
-npm install &>> $LOG_FILE
+npm install
 VALIDATE $? "installing dependencies"
 
 systemctl daemon-reload &>> $LOG_FILE
