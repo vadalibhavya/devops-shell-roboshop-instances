@@ -4,7 +4,7 @@ PASSWORD="DevOps321"
 USER="ec2-user"
 DOMAIN="doubtfree.online"
 
-services=("frontend" "mongodb" "catalogue" "cart" "user" "shipping" "payment" "dispatch" "redis" "mysql" "rabbitmq")
+services=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
 
 for service in "${services[@]}"; do
   echo "Connecting to $service"
