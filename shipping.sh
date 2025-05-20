@@ -50,15 +50,18 @@ fi
 
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOG_FILE
+curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
 VALIDATE $? "downloading shipping artifact"
 
 
+# shellcheck disable=SC2164
 cd /app &>> $LOG_FILE
 VALIDATE $? "moving to app directory"
 
 unzip /tmp/shipping.zip &>> $LOG_FILE
 VALIDATE $? "unzipping shipping artifact"
+
+cd /app
 
 mvn clean package &>> $LOG_FILE
 VALIDATE $? "mvn clean package"

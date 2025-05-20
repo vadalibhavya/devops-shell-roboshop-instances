@@ -51,13 +51,16 @@ fi
 mkdir -p /app
 VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip &>> $LOG_FILE
+curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
 VALIDATE $? "downloading dispatch artifact"
 
 # shellcheck disable=SC2164
 cd /app
-unzip /tmp/dispatch.zip &>> "$LOG_FILE"
+unzip /tmp/dispatch.zip
 VALIDATE $? "unzipping dispatch artifact"
+
+# shellcheck disable=SC2164
+cd /app
 
 go mod init dispatch &>> $LOG_FILE
 VALIDATE $? "initializing go module"

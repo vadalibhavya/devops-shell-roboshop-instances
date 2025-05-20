@@ -51,7 +51,7 @@ fi
 mkdir -p /app
 VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>> $LOG_FILE
+curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
 VALIDATE $? "downloading payment artifact"
 
 # shellcheck disable=SC2164
@@ -59,6 +59,9 @@ cd /app
 
 unzip /tmp/payment.zip &>> $LOG_FILE
 VALIDATE $? "unzipping payment artifact"
+
+# shellcheck disable=SC2164
+cd /app
 
 pip3 install -r requirements.txt &>> $LOG_FILE
 VALIDATE $? "installing dependencies"

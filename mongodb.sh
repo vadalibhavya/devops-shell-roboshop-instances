@@ -41,7 +41,7 @@ cp mongo.repo /etc/yum.repos.d/mongo.repo &>> "$LOG_FILE"
 VALIDATE $? "Copying mongo.repo"
 
 # Install mongodb-org package
-dnf install -y mongodb-org &>> "$LOG_FILE"
+dnf install mongodb-org -y &>> "$LOG_FILE"
 VALIDATE $? "Installing mongodb-org"
 
 # Enable and start mongod service
@@ -52,7 +52,7 @@ systemctl start mongod &>> "$LOG_FILE"
 VALIDATE $? "Starting mongod service"
 
 # Configure mongodb to listen on all interfaces (replace bindIp)
-sed -i -e 's/^ *bindIp:.*$/bindIp: 0.0.0.0/' /etc/mongod.conf &>> "$LOG_FILE"
+sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
 VALIDATE $? "Configuring mongod bindIp"
 
 # Restart mongod to apply config changes

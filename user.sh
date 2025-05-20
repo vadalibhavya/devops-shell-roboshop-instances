@@ -57,16 +57,18 @@ fi
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 VALIDATE $? "downloading user artifact"
 
 
 cd /app &>> $LOG_FILE
 VALIDATE $? "moving to app directory"
 
-unzip /tmp/user.zip &>> $LOG_FILE
+unzip /tmp/user.zip
 VALIDATE $? "unzipping user artifact"
 
+cd /app &>> $LOG_FILE
+VALIDATE $? "moving to app directory"
 npm install &>> $LOG_FILE
 VALIDATE $? "installing dependencies"
 
