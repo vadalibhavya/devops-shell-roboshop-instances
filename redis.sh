@@ -43,8 +43,9 @@ VALIDATE $? "enabling redis"
 dnf install redis -y &>> $LOG_FILE
 VALIDATE $? "installing redis"
 
+# shellcheck disable=SC2129
 sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf &>> $LOG_FILE
-sed -i 's/proctected-mode yes/protected-mode no/' /etc/redis/redis.conf &>> $LOG_FILE
+sed -i 's/protected-mode yes/protected-mode no/' /etc/redis/redis.conf &>> $LOG_FILE
 
 systemctl enable redis &>> $LOG_FILE
 systemctl start redis &>> $LOG_FILE
