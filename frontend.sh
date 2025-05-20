@@ -38,6 +38,10 @@ echo "Disabling default nginx"
 dnf module disable -y nginx
 VALIDATE $? "Disabling default nginx"
 
+dnf module enable -y nginx:1.24 &>> $LOG_FILE
+VALIDATE $? "enabling nginx"
+
+
 echo "Installing nginx"
 dnf install nginx -y
 VALIDATE $? "Installing nginx"
