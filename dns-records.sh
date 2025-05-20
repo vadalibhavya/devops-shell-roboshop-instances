@@ -23,3 +23,4 @@ do
     --output text
   echo "Private DNS record created/updated for $instance"
 done
+echo "DNS records created/updated successfully"

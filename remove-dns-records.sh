@@ -1,9 +1,7 @@
 #!/bin/bash
 ZONE_ID="Z05489693LFV4727Y7R4T"
-instances=("frontend" "mongodb" "catalogue" "redis" "user" "cart" "shipping" "payment" "dispatch" "mysql" "rabbitmq")
-
-echo "Deleting dns public and private records for instances"
-
+#delete the dns records that are created
+instances=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=*" --query "Reservations[*].Instances[*].InstanceId" --output text)
 for instance in "${instances[@]}"
 do
   echo "Deleting dns records for $instance"
@@ -13,8 +11,7 @@ do
     --output text
   aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
-    --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet":{"Name":"'$instance'-private.doubtfree.online","Type":"A"}}]}' \
+    --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet":{"Name":"'$instance-internal'.doubtfree.online","Type":"A"}}]}' \
     --output text
 done
-
-echo "Deleted dns public and private records for instances"
+echo "Deleted dns records for all instances"
