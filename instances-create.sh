@@ -28,7 +28,7 @@ for instance in ${instances[@]}; do
     --query "Reservations[0].Instances[0].PrivateIpAddress" \
     --output text)
   echo "Private IP: $PRIVATE_IP"
-
+done
 # create/update the dns records for the instances with public ip to be instance-internal/instance-public my domain is doubtfree.online
 echo "creating private and public dns records if not available for instances, else updating the dns records"
   aws route53 change-resource-record-sets \
@@ -41,6 +41,6 @@ echo "creating private and public dns records if not available for instances, el
     --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$instance'-private.doubtfree.online","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$PRIVATE_IP'"}]}}]}' \
     --output text
   echo "Private DNS record created/updated for $instance"
-done
+
 
 echo "All instances created and dns records updated"
