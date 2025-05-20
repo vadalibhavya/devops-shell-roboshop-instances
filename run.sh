@@ -11,7 +11,7 @@ for instance in "${instances[@]}"
 do
   echo "Processing $instance"
 
-  sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$instance-latest" 'bash -s' <<EOF
+  sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$instance.doubtfree.online" 'bash -s' <<EOF
     cd /home/ec2-user/devops-shell-roboshop-instances
     bash $instance.sh
 EOF
