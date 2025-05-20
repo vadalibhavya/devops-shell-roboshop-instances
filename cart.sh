@@ -50,14 +50,15 @@ useradd --system --home /app --shell /sbin/nologin --comment "roboshop system us
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/"$SCRIPT_NAME".zip https://roboshop-artifacts.s3.amazonaws.com/$SCRIPT_NAME-v3.zip &>> $LOG_FILE
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
 VALIDATE $? "downloading $SCRIPT_NAME artifact"
 
 cd /app &>> $LOG_FILE
 VALIDATE $? "moving to app directory"
 
-unzip /tmp/"$SCRIPT_NAME".zip &>> $LOG_FILE
+unzip /tmp/cart.zip
 VALIDATE $? "unzipping $SCRIPT_NAME artifact"
+
 
 npm install &>> $LOG_FILE
 VALIDATE $? "installing dependencies"
