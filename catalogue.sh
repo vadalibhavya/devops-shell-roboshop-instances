@@ -86,7 +86,7 @@ VALIDATE $? "installing mongodb-mongosh"
 
 
 STATUS=$(mongosh --host mongodb.doubtfree.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
-if [ $STATUS -eq 0 ]; then
+if [ "$STATUS" -eq 0 ]; then
   echo "catalogue database exists"
   mongosh --host mongodb.doubtfree.online </app/db/master-data.js &>> $LOG_FILE
 else

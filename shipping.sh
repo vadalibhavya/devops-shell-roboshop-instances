@@ -50,18 +50,35 @@ fi
 
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
+
+#!/bin/bash
+
+# Helper function
+VALIDATE() {
+  if [ "$1" -eq 0 ]; then
+    echo -e "\e[32mSUCCESS\e[0m - $2"
+  else
+    echo -e "\e[31mFAILURE\e[0m - $2"
+    exit 1
+  fi
+}
+
+echo "Downloading shipping artifact..."
 curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
-VALIDATE $? "downloading shipping artifact"
+VALIDATE $? "Downloading shipping artifact"
 
+echo "Preparing /app directory..."
+mkdir -p /app
+cd /app || { echo "Failed to move to /app"; exit 1; }
+VALIDATE $? "Moving to app directory"
 
-# shellcheck disable=SC2164
-cd /app &>> $LOG_FILE
-VALIDATE $? "moving to app directory"
+echo "Unzipping shipping artifact..."
+unzip -o /tmp/shipping.zip &>/dev/null
+VALIDATE $? "Unzipping shipping artifact"
 
-unzip /tmp/shipping.zip &>> $LOG_FILE
-VALIDATE $? "unzipping shipping artifact"
+# Final check
+cd /app || exit
 
-cd /app
 
 mvn clean package &>> $LOG_FILE
 VALIDATE $? "mvn clean package"

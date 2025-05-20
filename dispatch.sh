@@ -56,7 +56,7 @@ VALIDATE $? "downloading dispatch artifact"
 
 # shellcheck disable=SC2164
 cd /app
-unzip /tmp/dispatch.zip
+unzip -o /tmp/dispatch.zip
 VALIDATE $? "unzipping dispatch artifact"
 
 # shellcheck disable=SC2164

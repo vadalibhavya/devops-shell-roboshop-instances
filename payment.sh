@@ -57,7 +57,7 @@ VALIDATE $? "downloading payment artifact"
 # shellcheck disable=SC2164
 cd /app
 
-unzip /tmp/payment.zip &>> $LOG_FILE
+unzip -o /tmp/payment.zip &>> $LOG_FILE
 VALIDATE $? "unzipping payment artifact"
 
 # shellcheck disable=SC2164

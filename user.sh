@@ -33,7 +33,7 @@ VALIDATE() {
     exit 1
   fi
 }
-
+# shellcheck disable=SC2164
 dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "disabling default nodejs"
 
@@ -57,18 +57,23 @@ fi
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
 
+
+echo "Downloading user artifact..."
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-VALIDATE $? "downloading user artifact"
+VALIDATE $? "Downloading user artifact"
 
+echo "Creating and moving to /app directory..."
+mkdir -p /app
+cd /app
+VALIDATE $? "Changing directory to /app"
 
-cd /app &>> $LOG_FILE
+echo "Unzipping user artifact..."
+unzip -o /tmp/user.zip &>/dev/null
+VALIDATE $? "Unzipping user artifact"
+
+cd /app
 VALIDATE $? "moving to app directory"
 
-unzip /tmp/user.zip
-VALIDATE $? "unzipping user artifact"
-
-cd /app &>> $LOG_FILE
-VALIDATE $? "moving to app directory"
 npm install &>> $LOG_FILE
 VALIDATE $? "installing dependencies"
 
