@@ -12,7 +12,7 @@ SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 SCRIPT_DIR=$PWD
 
-
+mkdir -p $LOGS_FOLDER
 echo "Script started executing at $(date)" | tee -a $LOG_FILE
 
 if [ $USERID -ne 0 ]; then
@@ -23,7 +23,7 @@ if [ $USERID -ne 0 ]; then
 else
   echo -e "${G}You are root user${N}"
 fi
-mkdir -p $LOGS_FOLDER
+
 
 VALIDATE() {
   if [ $1 -eq 0 ]; then
@@ -35,9 +35,11 @@ VALIDATE() {
 }
 
 dnf install maven -y &>> $LOG_FILE
+# shellcheck disable=SC2218
 VALIDATE $? "installing maven"
 
 cp $SCRIPT_DIR/$SCRIPT_NAME.service /etc/systemd/system/$SCRIPT_NAME.service &>> $LOG_FILE
+# shellcheck disable=SC2218
 VALIDATE $? "copying service file"
 
 id roboshop &>> $LOG_FILE
@@ -49,6 +51,7 @@ else
 fi
 
 mkdir -p /app &>> $LOG_FILE
+# shellcheck disable=SC2218
 VALIDATE $? "creating app directory"
 
 #!/bin/bash

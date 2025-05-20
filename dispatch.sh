@@ -15,7 +15,7 @@ N="\033[0m"
 LOGS_FOLDER="/var/log/roboshop-logs"
 SCRIPT_NAME=$(basename "$0" | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
-
+mkdir -p "$LOGS_FOLDER"
 echo "Script started executing at $(date)" | tee -a "$LOG_FILE"
 
 if [ "$USERID" -ne 0 ]; then
@@ -25,7 +25,7 @@ else
     echo -e "${G}You are root user${N}" | tee -a "$LOG_FILE"
 fi
 
-mkdir -p "$LOGS_FOLDER"
+
 
 function VALIDATE() {
     if [ $1 -ne 0 ]; then
