@@ -56,7 +56,7 @@ VALIDATE $? "downloading $SCRIPT_NAME artifact"
 cd /app &>> $LOG_FILE
 VALIDATE $? "moving to app directory"
 
-unzip /tmp/cart.zip
+unzip -o /tmp/cart.zip
 VALIDATE $? "unzipping $SCRIPT_NAME artifact"
 
 
