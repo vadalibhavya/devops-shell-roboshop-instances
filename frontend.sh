@@ -68,7 +68,8 @@ VALIDATE $? "Extracting frontend content"
 echo "Configuring frontend"
 rm -rf /etc/nginx/nginx.conf &>> $LOG_FILE
 # over write the existing nginx.conf
-cp -o nginx.conf /etc/nginx/nginx.conf &>> $LOG_FILE
+cp -f nginx.conf /etc/nginx/nginx.conf &>> $LOG_FILE
+
 VALIDATE $? "Configuring frontend"
 
 echo "Restarting nginx"
