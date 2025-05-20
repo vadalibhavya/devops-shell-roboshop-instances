@@ -10,6 +10,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/roboshop-logs"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+# shellcheck disable=SC2034
 SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 
@@ -34,7 +35,7 @@ VALIDATE() {
   fi
 }
 
-dnf install python3 gcc python3-devel  -y &>> $LOG_FILE
+dnf install python3 gcc python3-devel  -y &>> "$LOG_FILE"
 VALIDATE $? "installing python3"
 
 cp payment.service /etc/systemd/system/payment.service &>> $LOG_FILE
@@ -42,7 +43,7 @@ VALIDATE $? "copying service file"
 
 id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
-  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>"$LOG_FILE"
   VALIDATE $? "creating roboshop user"
 else
   echo "user already exists"
@@ -57,7 +58,7 @@ VALIDATE $? "downloading payment artifact"
 # shellcheck disable=SC2164
 cd /app
 
-unzip -o /tmp/payment.zip &>> $LOG_FILE
+unzip -o /tmp/payment.zip &>> "$LOG_FILE"
 VALIDATE $? "unzipping payment artifact"
 
 # shellcheck disable=SC2164
@@ -75,4 +76,4 @@ VALIDATE $? "enabling payment service"
 systemctl restart payment &>> $LOG_FILE
 VALIDATE $? "restarting payment service"
 
-echo "Script completed executing at $(date)" | tee -a $LOG_FILE
+echo "Script completed executing at $(date)" | tee -a "$LOG_FILE"

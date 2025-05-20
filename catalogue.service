@@ -5,7 +5,6 @@ Description = Catalogue Service
 User=roboshop
 Environment=MONGO=true
 Environment=MONGO_URL="mongodb://mongodb-internal.doubtfree.online:27017/catalogue"
-
 ExecStart=/bin/node /app/server.js
 SyslogIdentifier=catalogue
 
