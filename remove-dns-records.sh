@@ -4,7 +4,7 @@ ZONE_ID="Z05489693LFV4727Y7R4T"
 # Get running instances with tag:Name matching *latest
 instances=$(aws ec2 describe-instances \
   --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=*latest" \
-  --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='Name']|[0].Value]" \
+  --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='service']|[0].Value]" \
   --output text)
 
 # Loop through each line: INSTANCE_ID and NAME_TAG

@@ -6,13 +6,14 @@ SECURITY_GROUP_ID="sg-02e8b8d9dcc4131b2"
 ZONE_ID="Z05489693LFV4727Y7R4T"
 
 instances=("frontend" "mongodb" "catalogue" "redis" "user" "cart" "shipping" "payment" "dispatch" "mysql" "rabbitmq")
-#checking if aws cli is installed or not
+
+# Checking if AWS CLI is installed
 if aws --version &> /dev/null; then
   echo "AWS CLI is installed"
 else
   echo "AWS CLI is NOT installed"
   dnf install awscli -y
-  echo "aws cli installed successfully"
+  echo "AWS CLI installed successfully"
 fi
 
 for instance in "${instances[@]}"; do
@@ -22,9 +23,9 @@ for instance in "${instances[@]}"; do
     --image-id "$AMI_ID" \
     --instance-type "$INSTANCE_TYPE" \
     --security-group-ids "$SECURITY_GROUP_ID" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance-latest}]" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance-latest},{Key=service,Value=$instance}]" \
     --query "Instances[0].InstanceId" \
     --output text)
 
-  echo "Created instance with ID:: $INSTANCE_ID"
+  echo "Created instance with ID: $INSTANCE_ID"
 done
