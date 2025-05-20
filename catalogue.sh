@@ -85,12 +85,12 @@ dnf install mongodb-mongosh -y &>> $LOG_FILE
 VALIDATE $? "installing mongodb-mongosh"
 
 
-STATUS=$(mongosh --host mongodb.doubtfree.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+STATUS=$(mongosh --host mongodb-internal.doubtfree.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 if [ "$STATUS" -eq 0 ]; then
   echo "catalogue database exists"
-  mongosh --host mongodb.doubtfree.online </app/db/master-data.js
+  mongosh --host mongodb-internal.doubtfree.online </app/db/master-data.js
 else
   echo -e "Data is already loaded ... $Y SKIPPING"
   echo "catalogue database exists"
-  mongosh --host mongodb.doubtfree.online </app/db/master-data.js
+  mongosh --host mongodb-internal.doubtfree.online </app/db/master-data.js
 fi
