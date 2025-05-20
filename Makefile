@@ -10,14 +10,13 @@ deploy:
 
 %:
 	@echo "Connecting to $@.$(DOMAIN)"
-	@sshpass -p $(PASSWORD) ssh -o StrictHostKeyChecking=no $(USER)@$@.$(DOMAIN) 'bash -s' <<'EOF'
-cd /home/ec2-user
-if [ ! -d "devops-shell-roboshop-instances" ]; then
-  git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
-fi
-cd devops-shell-roboshop-instances
-git reset --hard HEAD
-git pull
-chmod +x $@.sh
-sudo bash $@.sh
-EOF
+	@sshpass -p $(PASSWORD) ssh -o StrictHostKeyChecking=no $(USER)@$@.$(DOMAIN) "\
+		cd /home/ec2-user && \
+		if [ ! -d devops-shell-roboshop-instances ]; then \
+			git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git; \
+		fi && \
+		cd devops-shell-roboshop-instances && \
+		git reset --hard HEAD && \
+		git pull && \
+		chmod +x $@.sh && \
+		sudo bash $@.sh"
