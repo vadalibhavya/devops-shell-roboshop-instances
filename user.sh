@@ -57,14 +57,15 @@ fi
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/"$SCRIPT_NAME".zip https://roboshop-artifacts.s3.amazonaws.com/$SCRIPT_NAME-v3.zip &>> $LOG_FILE
-VALIDATE $? "downloading $SCRIPT_NAME artifact"
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
+VALIDATE $? "downloading user artifact"
+
 
 cd /app &>> $LOG_FILE
 VALIDATE $? "moving to app directory"
 
-unzip /tmp/"$SCRIPT_NAME".zip &>> $LOG_FILE
-VALIDATE $? "unzipping $SCRIPT_NAME artifact"
+unzip /tmp/user.zip &>> $LOG_FILE
+VALIDATE $? "unzipping user artifact"
 
 npm install &>> $LOG_FILE
 VALIDATE $? "installing dependencies"

@@ -54,8 +54,9 @@ VALIDATE $? "creating app directory"
 curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip &>> $LOG_FILE
 VALIDATE $? "downloading dispatch artifact"
 
+# shellcheck disable=SC2164
 cd /app
-unzip /tmp/dispatch.zip &>> $LOG_FILE
+unzip /tmp/dispatch.zip &>> "$LOG_FILE"
 VALIDATE $? "unzipping dispatch artifact"
 
 go mod init dispatch &>> $LOG_FILE
