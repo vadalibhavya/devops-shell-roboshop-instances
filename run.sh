@@ -15,6 +15,7 @@ if [ ! -d "devops-shell-roboshop-instances" ]; then
   git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
 fi
 cd devops-shell-roboshop-instances
+git pull
 chmod +x $service.sh
 sudo bash $service.sh
 EOF
