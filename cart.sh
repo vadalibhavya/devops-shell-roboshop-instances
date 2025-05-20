@@ -45,8 +45,7 @@ VALIDATE $? "copying service file"
 dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "installing nodejs"
 
-useradd roboshop &>> $LOG_FILE
-VALIDATE $? "creating roboshop user"
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 
 mkdir -p /app &>> $LOG_FILE
 VALIDATE $? "creating app directory"
