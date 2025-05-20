@@ -12,7 +12,7 @@ for service in "${services[@]}"; do
   sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$service.$DOMAIN" 'bash -s' <<EOF
 cd /home/ec2-user
 if [ ! -d "devops-shell-roboshop-instances" ]; then
-  git clone https://github.com/roboshop-devops-projects/devops-shell-roboshop-instances.git
+  git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
 fi
 cd devops-shell-roboshop-instances
 chmod +x $service.sh
