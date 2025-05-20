@@ -28,8 +28,7 @@ The following instances will be created:
 
 - An AWS account with necessary permissions to create EC2 instances.
 - A valid **AMI ID**, **Security Group ID**, and **Zone ID**.
-- AWS CLI installed and configured with credentials (`aws configure`).
-- The script is intended for Amazon Linux or any OS with `dnf`.
+- AWS CLI installed and configured with role based permission.
 
 ## Variables to Update
 Make sure to update these variables in the script with your own values:
