@@ -46,11 +46,8 @@ VALIDATE $? "enabling rabbitmq-server"
 systemctl start rabbitmq-server &>> $LOG_FILE
 VALIDATE $? "starting rabbitmq-server"
 
-rabbitmqctl add_user roboshop roboshop123 &>> $LOG_FILE
-VALIDATE $? "adding user"
-
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $LOG_FILE
-VALIDATE $? "setting permissions"
+rabbitmqctl add_user roboshop roboshop123
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
 
 echo "Script completed executing at $(date)" | tee -a $LOG_FILE
 
