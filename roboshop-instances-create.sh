@@ -23,7 +23,7 @@ else
   dnf install git -y
   echo "Git installed successfully"
 fi
-git clone https://github.com/roboshop-devops-projects/devops-shell-roboshop-instances.git
+git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
 
 for instance in "${instances[@]}"; do
   echo "Creating $instance instance"
