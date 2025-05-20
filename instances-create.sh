@@ -22,7 +22,7 @@ for instance in "${instances[@]}"; do
     --image-id "$AMI_ID" \
     --instance-type "$INSTANCE_TYPE" \
     --security-group-ids "$SECURITY_GROUP_ID" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}],Tags=[{Key=Name,Value=$instance-latest}]" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance-latest}]" \
     --query "Instances[0].InstanceId" \
     --output text)
 
