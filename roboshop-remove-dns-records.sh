@@ -9,27 +9,29 @@ for service in "${services[@]}"; do
 
     echo "Checking and deleting: $RECORD_NAME"
 
-    # Get the current record set
-    RECORD_SET=$(aws route53 list-resource-record-sets \
+    # Get the current record set (only first match)
+    RECORD_JSON=$(aws route53 list-resource-record-sets \
       --hosted-zone-id "$ZONE_ID" \
-      --query "ResourceRecordSets[?Name == '${RECORD_NAME}']" \
+      --query "ResourceRecordSets[?Name == '${RECORD_NAME}'] | [0]" \
       --output json)
 
-    if [[ "$RECORD_SET" != "[]" ]]; then
-      echo "Deleting DNS record: $RECORD_NAME"
-
-      aws route53 change-resource-record-sets \
-        --hosted-zone-id "$ZONE_ID" \
-        --change-batch "{
-          \"Changes\": [
-            {
-              \"Action\": \"DELETE\",
-              \"ResourceRecordSet\": ${RECORD_SET}
-            }
-          ]
-        }"
-    else
+    # Skip if empty
+    if [[ "$RECORD_JSON" == "null" ]]; then
       echo "Record $RECORD_NAME not found or already deleted."
+      continue
     fi
+
+    echo "Deleting DNS record: $RECORD_NAME"
+
+    aws route53 change-resource-record-sets \
+      --hosted-zone-id "$ZONE_ID" \
+      --change-batch "{
+        \"Changes\": [
+          {
+            \"Action\": \"DELETE\",
+            \"ResourceRecordSet\": $RECORD_JSON
+          }
+        ]
+      }"
   done
 done
