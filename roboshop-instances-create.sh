@@ -24,7 +24,7 @@ else
   echo "Git installed successfully"
 fi
 git clone https://github.com/vadalibhavya/devops-shell-roboshop-instances.git
-gti clone https://github.com/vadalibhavya/devops-ansible-roboshop.git
+git clone https://github.com/vadalibhavya/devops-ansible-roboshop.git
 
 for instance in "${instances[@]}"; do
   echo "Creating $instance instance"
